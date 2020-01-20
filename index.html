@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <title>Rock Paper Scissors</title>
+  <body>
+    <script>
+      function computerPlay(){
+        computerChoice = ['Paper', 'Rock', 'Scissors'];
+        randomChoice = Math.floor(Math.random() * 3);
+        return computerChoice[randomChoice];
+      }
+
+      function cleanInput(selection){
+        if (typeof(selection) != "string"){
+          return false;
+        }else if (selection.length < 4){
+          return false;
+        }else{
+          selection = selection[0].toUpperCase() + selection.slice(1).toLowerCase();
+
+          validInput = {'Paper':'', 'Rock':'', 'Scissors':''};
+          if (selection in validInput == false){
+            return false;
+          }else{
+            return selection;
+          }
+        }
+      }
+      
+
+
+      function playRound(playerSelection, computerSelection){
+        playerSelection = cleanInput(playerSelection);
+        computerSelection = cleanInput(computerSelection);
+        if (playerSelection === false | computerSelection === false){
+          return ["Invalid Input", "Please enter 'Paper', 'Rock', or 'Scissors'."];
+        }else if (playerSelection === computerSelection){
+          return ["Tie", "It's a tie! You both selected " + playerSelection + "."];
+        }else if (playerSelection === 'Scissors' && computerSelection === 'Paper'){
+          return ["Win", "You Win! Scissors beats Paper!"];
+        }else if (computerSelection === 'Scissors' && playerSelection === 'Paper'){
+          return ["Loss", "You Lose! Scissors beats Paper!"];
+        }else if (playerSelection < computerSelection){
+          return ["Win", "You Win! " + playerSelection + " beats " + computerSelection + "."];
+        }else {
+          return ["Loss", "You Lose! " + computerSelection + " beats " + playerSelection + "."];
+        }
+      }
+
+      function game(){
+        let playerScore = 0;
+        let computerScore = 0;
+        let roundResult = "This message should never appear in game.";
+        while (playerScore < 5 && computerScore < 5){
+          playerSelection = prompt("Make your selection! Rock, Paper, or Scissors!");
+          roundResult = playRound(playerSelection, computerPlay());
+          if (roundResult[0] == "Invalid Input"){
+            console.log(roundResult[1]);
+          }else if (roundResult[0] == "Win"){
+            playerScore++;
+            console.log(roundResult[1]);
+            console.log("Player: " + playerScore + "; Computer: " + computerScore);
+          }else if (roundResult[0] == "Loss"){
+            computerScore++;
+            console.log(roundResult[1]);
+            console.log("Player: " + playerScore + "; Computer: " + computerScore);
+          }else{
+            console.log(roundResult[1]);
+          }
+        }
+        if (playerScore === 5){
+          console.log("You Win! First to Five!");
+        }
+        if (computerScore === 5){
+          console.log("You Lose! The computer won five games first. Better luck next time!");
+        }
+      }
+      
+      game()
+    </script>
+  </body>
+</html>
